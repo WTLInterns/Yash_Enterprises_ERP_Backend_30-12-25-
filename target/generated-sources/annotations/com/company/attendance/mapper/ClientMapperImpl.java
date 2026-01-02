@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-12-31T18:23:34+0530",
+    date = "2026-01-02T15:53:13+0530",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
@@ -66,10 +66,10 @@ public class ClientMapperImpl implements ClientMapper {
         client.setId( clientDto.getId() );
         client.setName( clientDto.getName() );
         client.setEmail( clientDto.getEmail() );
-        client.setIsActive( clientDto.getIsActive() );
         client.setContactPhone( clientDto.getContactPhone() );
         client.setAddress( clientDto.getAddress() );
         client.setNotes( clientDto.getNotes() );
+        client.setIsActive( clientDto.getIsActive() );
         client.setCreatedAt( clientDto.getCreatedAt() );
         client.setUpdatedAt( clientDto.getUpdatedAt() );
     }

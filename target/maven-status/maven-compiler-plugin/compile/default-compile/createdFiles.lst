@@ -2,6 +2,8 @@ com\company\attendance\mapper\OrderMapper.class
 com\company\attendance\mapper\PermissionMapper.class
 com\company\attendance\repository\CaseDocumentRepository.class
 com\company\attendance\mapper\CaseDocumentMapperImpl.class
+com\company\attendance\entity\SupportTicket$SupportTicketBuilder.class
+com\company\attendance\controller\ReportsController.class
 com\company\attendance\mapper\PolicyMapperImpl.class
 com\company\attendance\service\FormService.class
 com\company\attendance\controller\AnnouncementController.class
@@ -47,7 +49,6 @@ com\company\attendance\mapper\OrganizationMapper.class
 com\company\attendance\service\EmployeeService.class
 com\company\attendance\entity\Attendance$Status.class
 com\company\attendance\entity\Permission$PermissionBuilder.class
-com\company\attendance\controller\SettingController.class
 com\company\attendance\mapper\HolidayMapper.class
 com\company\attendance\entity\Case$Priority.class
 com\company\attendance\entity\LeaveRequest$Status.class
@@ -71,6 +72,8 @@ com\company\attendance\entity\EmployeeTracking.class
 com\company\attendance\dto\HolidayDto$HolidayDtoBuilder.class
 com\company\attendance\dto\EmployeeDto.class
 com\company\attendance\mapper\ShiftMapperImpl.class
+com\company\attendance\mapper\SettingsMapperImpl.class
+com\company\attendance\repository\SettingsRepository.class
 com\company\attendance\mapper\DepartmentMapperImpl.class
 com\company\attendance\mapper\CaseMapper.class
 com\company\attendance\dto\ShiftDto.class
@@ -91,6 +94,7 @@ com\company\attendance\controller\BulkAttendanceController.class
 com\company\attendance\entity\Client$ClientBuilder.class
 com\company\attendance\mapper\TaskMapperImpl.class
 com\company\attendance\repository\LeaveRequestRepository.class
+com\company\attendance\entity\Settings.class
 com\company\attendance\mapper\ExpenseMapper.class
 com\company\attendance\util\FileUploadUtil.class
 com\company\attendance\service\SettingService.class
@@ -98,6 +102,8 @@ com\company\attendance\dto\ClientDto.class
 com\company\attendance\entity\Attendance$AttendanceBuilder.class
 com\company\attendance\dto\EmployeePunchDto$EmployeePunchDtoBuilder.class
 com\company\attendance\controller\DebugController.class
+com\company\attendance\controller\SupportTicketController.class
+com\company\attendance\controller\SettingsController.class
 com\company\attendance\repository\HolidayRepository.class
 com\company\attendance\dto\OrderDto.class
 com\company\attendance\entity\Organization.class
@@ -116,6 +122,7 @@ com\company\attendance\entity\GeofenceZone.class
 com\company\attendance\entity\Employee$Status.class
 com\company\attendance\mapper\CaseMapperImpl.class
 com\company\attendance\dto\CaseDto.class
+com\company\attendance\controller\EmployeeController.class
 com\company\attendance\dto\RoleDto$RoleDtoBuilder.class
 com\company\attendance\dto\FormDto.class
 com\company\attendance\service\EmailService.class
@@ -137,7 +144,11 @@ com\company\attendance\repository\AttendanceRepository.class
 com\company\attendance\entity\Employee$EmployeeBuilder.class
 com\company\attendance\dto\AttendanceDto.class
 com\company\attendance\dto\DepartmentDto$DepartmentDtoBuilder.class
+com\company\attendance\mapper\SettingsMapper.class
+com\company\attendance\repository\SupportTicketRepository.class
 com\company\attendance\dto\EmployeeDto$EmployeeDtoBuilder.class
+com\company\attendance\service\SettingsService.class
+com\company\attendance\controller\RoleController.class
 com\company\attendance\dto\EmployeeTrackingDto$EmployeeTrackingDtoBuilder.class
 com\company\attendance\entity\Role.class
 com\company\attendance\mapper\ExpenseMapperImpl.class
@@ -157,6 +168,7 @@ com\company\attendance\mapper\TeamMapperImpl.class
 com\company\attendance\dto\EmployeePunchDto.class
 com\company\attendance\mapper\HolidayMapperImpl.class
 com\company\attendance\entity\Designation$DesignationBuilder.class
+com\company\attendance\dto\SettingsDto.class
 com\company\attendance\controller\AttendanceController.class
 com\company\attendance\mapper\AttendanceMapperImpl.class
 com\company\attendance\entity\EmployeeTracking$EmployeeTrackingBuilder.class
@@ -173,10 +185,13 @@ com\company\attendance\security\JwtAuthenticationFilter.class
 com\company\attendance\mapper\RoleMapper.class
 com\company\attendance\mapper\CaseDocumentMapper.class
 com\company\attendance\dto\GeofenceZoneDto.class
+com\company\attendance\service\SupportTicketService.class
+com\company\attendance\mapper\SupportTicketMapperImpl.class
 com\company\attendance\mapper\EmployeeMapperImpl.class
 com\company\attendance\entity\Setting$SettingBuilder.class
 com\company\attendance\controller\CaseDocumentController$1.class
 com\company\attendance\service\ReportExportService.class
+com\company\attendance\entity\SupportTicket.class
 com\company\attendance\mapper\AnnouncementMapperImpl.class
 com\company\attendance\service\ExpenseService.class
 com\company\attendance\config\AdminBootstrap.class
@@ -185,15 +200,19 @@ com\company\attendance\entity\Announcement$AnnouncementBuilder.class
 com\company\attendance\entity\EmployeePunch$EmployeePunchBuilder.class
 com\company\attendance\dto\DesignationDto$DesignationDtoBuilder.class
 com\company\attendance\service\JwtService.class
+com\company\attendance\entity\Settings$SettingsBuilder.class
 com\company\attendance\mapper\DesignationMapper.class
 com\company\attendance\service\AttendanceService.class
+com\company\attendance\service\RoleService.class
 com\company\attendance\dto\PermissionDto.class
 com\company\attendance\dto\LoginResponse.class
 com\company\attendance\repository\EmployeeTrackingRepository.class
 com\company\attendance\entity\Organization$OrganizationBuilder.class
 com\company\attendance\AttendanceApplication.class
 com\company\attendance\controller\FormController.class
+com\company\attendance\dto\SupportTicketDto.class
 com\company\attendance\repository\GeofenceZoneRepository.class
+com\company\attendance\mapper\SupportTicketMapper.class
 com\company\attendance\mapper\RoleMapperImpl.class
 com\company\attendance\repository\FormRepository.class
 com\company\attendance\entity\Setting.class

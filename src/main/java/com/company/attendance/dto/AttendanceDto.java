@@ -22,9 +22,17 @@ public class AttendanceDto {
     private Boolean isLunchIn;
     private Boolean isLunchOut;
 
-    // Explicit getter used by AttendanceController (defensive if Lombok is not processed)
+    // Explicit getters used by ReportsController (defensive if Lombok is not processed)
 
     public Long getEmployeeId() {
         return employeeId;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

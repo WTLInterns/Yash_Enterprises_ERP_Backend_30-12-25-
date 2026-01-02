@@ -1,15 +1,11 @@
 package com.company.attendance.controller;
 
-import com.company.attendance.entity.Employee;
 import com.company.attendance.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,43 +22,18 @@ public class TestController {
     }
     
     @GetMapping("/employees")
-    public ResponseEntity<List<Map<String, Object>>> getAllEmployees() {
-        List<Employee> employees = employeeRepository.findAll();
-
-        List<Map<String, Object>> dtos = employees.stream().map(e -> {
-            Map<String, Object> m = new HashMap<>();
-            m.put("id", e.getId());
-            m.put("userId", e.getUserId());
-            m.put("employeeId", e.getEmployeeId());
-            m.put("firstName", e.getFirstName());
-            m.put("lastName", e.getLastName());
-            m.put("email", e.getEmail());
-            m.put("phone", e.getPhone());
-
-            if (e.getTeam() != null) {
-                Map<String, Object> team = new HashMap<>();
-                team.put("id", e.getTeam().getId());
-                team.put("name", e.getTeam().getName());
-                m.put("team", team);
-            }
-
-            if (e.getRole() != null) {
-                Map<String, Object> role = new HashMap<>();
-                role.put("id", e.getRole().getId());
-                role.put("name", e.getRole().getName());
-                m.put("role", role);
-            }
-
-            return m;
-        }).collect(Collectors.toList());
-
-        return ResponseEntity.ok(dtos);
-    }
-    
-    @GetMapping("/employee/{id}")
-    public ResponseEntity<Employee> getEmployee(@PathVariable Long id) {
-        Optional<Employee> employee = employeeRepository.findById(id);
-        return employee.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public List<Map<String, Object>> getEmployees() {
+        return employeeRepository.findAll().stream()
+            .map(emp -> {
+                Map<String, Object> map = new java.util.HashMap<>();
+                map.put("id", emp.getId());
+                map.put("name", emp.getFirstName() + " " + emp.getLastName());
+                map.put("email", emp.getEmail());
+                map.put("department", emp.getTeam() != null ? emp.getTeam().getName() : null);
+                map.put("position", emp.getDesignation() != null ? emp.getDesignation().getName() : null);
+                map.put("status", emp.getStatus() != null ? emp.getStatus().toString() : "ACTIVE");
+                return map;
+            })
+            .collect(Collectors.toList());
     }
 }

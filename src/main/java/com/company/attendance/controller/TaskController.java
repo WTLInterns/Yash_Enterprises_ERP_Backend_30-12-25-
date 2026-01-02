@@ -23,7 +23,10 @@ public class TaskController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<TaskDto> getTask(@PathVariable Long id) {
-        return ResponseEntity.ok(taskMapper.toDto(taskService.getById(id)));
+        return taskService.findById(id)
+                .map(taskMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
     @PostMapping
     public ResponseEntity<TaskDto> createTask(@Valid @RequestBody TaskDto dto) {
@@ -31,15 +34,15 @@ public class TaskController {
         return ResponseEntity.ok(taskMapper.toDto(task));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<TaskDto> updateTask(@PathVariable Long id, @RequestBody TaskDto dto) {
-        Task t = taskService.getById(id);
-        Task saved = taskService.save(taskMapper.toEntity(dto));
-        return ResponseEntity.ok(taskMapper.toDto(saved));
+    public ResponseEntity<TaskDto> updateTask(@PathVariable Long id, @Valid @RequestBody TaskDto dto) {
+        Task task = taskMapper.toEntity(dto);
+        Task updated = taskService.update(id, task);
+        return ResponseEntity.ok(taskMapper.toDto(updated));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
         taskService.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
 

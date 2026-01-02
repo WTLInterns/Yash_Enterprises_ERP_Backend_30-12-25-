@@ -4,7 +4,6 @@ import com.company.attendance.dto.AttendanceDto;
 import com.company.attendance.entity.Attendance;
 import com.company.attendance.mapper.AttendanceMapper;
 import com.company.attendance.service.AttendanceService;
-import com.company.attendance.service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +22,11 @@ import java.util.stream.Collectors;
 public class AttendanceController {
     private final AttendanceService attendanceService;
     private final AttendanceMapper attendanceMapper;
-    private final EmployeeService employeeService;
 
     @PostMapping("/punch-in")
     public ResponseEntity<AttendanceDto> punchIn(@Valid @RequestBody AttendanceDto dto) {
         Attendance attendance = attendanceMapper.toEntity(dto);
-        attendance.setEmployee(employeeService.findById(dto.getEmployeeId())
-                .orElseThrow(() -> new RuntimeException("Employee not found")));
+        // Employee will be set by the service layer based on employeeId
         Attendance saved = attendanceService.save(attendance);
         return ResponseEntity.ok(attendanceMapper.toDto(saved));
     }

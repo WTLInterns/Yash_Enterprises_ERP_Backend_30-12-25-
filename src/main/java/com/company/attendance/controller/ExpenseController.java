@@ -23,7 +23,10 @@ public class ExpenseController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<ExpenseDto> getExpense(@PathVariable Long id) {
-        return ResponseEntity.ok(expenseMapper.toDto(expenseService.getById(id)));
+        return expenseService.findById(id)
+                .map(expenseMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
     @PostMapping
     public ResponseEntity<ExpenseDto> createExpense(@Valid @RequestBody ExpenseDto dto) {
@@ -31,15 +34,15 @@ public class ExpenseController {
         return ResponseEntity.ok(expenseMapper.toDto(expense));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<ExpenseDto> updateExpense(@PathVariable Long id, @RequestBody ExpenseDto dto) {
-        Expense o = expenseService.getById(id);
-        Expense saved = expenseService.save(expenseMapper.toEntity(dto));
-        return ResponseEntity.ok(expenseMapper.toDto(saved));
+    public ResponseEntity<ExpenseDto> updateExpense(@PathVariable Long id, @Valid @RequestBody ExpenseDto dto) {
+        Expense expense = expenseMapper.toEntity(dto);
+        Expense updated = expenseService.update(id, expense);
+        return ResponseEntity.ok(expenseMapper.toDto(updated));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteExpense(@PathVariable Long id) {
         expenseService.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
 

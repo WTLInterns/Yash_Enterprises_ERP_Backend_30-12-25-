@@ -13,11 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -137,6 +135,63 @@ public class CaseDocumentController {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
             log.error("Error fetching document for download: {}", e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    @GetMapping("/view/{id}")
+    public ResponseEntity<Resource> viewDocument(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        log.info("GET /api/case-documents/view/{} - Viewing document", id);
+        try {
+            CaseDocumentDto documentDto = caseDocumentService.getDocumentById(id);
+            log.info("Document found: {} with file path: {}", documentDto.getDocumentName(), documentDto.getFilePath());
+            
+            // Determine content type based on file extension
+            String contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
+            String fileName = documentDto.getFileName().toLowerCase();
+            if (fileName.endsWith(".pdf")) {
+                contentType = "application/pdf";
+            } else if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
+                contentType = "image/jpeg";
+            } else if (fileName.endsWith(".png")) {
+                contentType = "image/png";
+            } else if (fileName.endsWith(".gif")) {
+                contentType = "image/gif";
+            }
+            
+            log.info("Streaming content type: {} for file: {}", contentType, fileName);
+            
+            // Stream the file directly to avoid memory issues
+            java.io.File file = new java.io.File(documentDto.getFilePath());
+            if (!file.exists()) {
+                log.error("File not found on disk: {}", documentDto.getFilePath());
+                return ResponseEntity.notFound().build();
+            }
+            
+            response.setContentType(contentType);
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + documentDto.getFileName() + "\"");
+            response.setHeader(HttpHeaders.CACHE_CONTROL, "max-age=3600");
+            response.setHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()));
+            
+            // Stream the file
+            try (java.io.InputStream inputStream = new java.io.FileInputStream(file);
+                 java.io.OutputStream outputStream = response.getOutputStream()) {
+                
+                byte[] buffer = new byte[8192]; // 8KB buffer
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+                outputStream.flush();
+            }
+            
+            return ResponseEntity.ok().build();
+                    
+        } catch (IOException e) {
+            log.error("Error viewing document: {} - {}", e.getMessage(), e.getClass().getSimpleName());
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            log.error("Error fetching document for viewing: {} - {}", e.getMessage(), e.getClass().getSimpleName());
             return ResponseEntity.notFound().build();
         }
     }

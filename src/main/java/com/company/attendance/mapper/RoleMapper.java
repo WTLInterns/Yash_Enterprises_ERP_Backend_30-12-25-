@@ -4,11 +4,9 @@ import com.company.attendance.dto.RoleDto;
 import com.company.attendance.entity.Role;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface RoleMapper {
-    RoleMapper INSTANCE = Mappers.getMapper(RoleMapper.class);
 
     @Mapping(target = "permissions", ignore = true)
     @Mapping(target = "employees", ignore = true)

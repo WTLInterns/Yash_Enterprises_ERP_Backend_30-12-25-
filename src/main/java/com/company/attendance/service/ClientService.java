@@ -38,24 +38,51 @@ public class ClientService {
         return clientMapper.toDto(savedClient);
     }
 
+    @Transactional
     public ClientDto updateClient(Long id, ClientDto clientDto) {
         log.info("Updating client with ID: {}", id);
         
+        // Find existing client
         Client existingClient = clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Client not found with ID: " + id));
         
-        // Check if email already exists for another client
+        // Check if email is being changed and if new email already exists
         if (clientDto.getEmail() != null && !clientDto.getEmail().equals(existingClient.getEmail())) {
-            Optional<Client> clientWithEmail = clientRepository.findByEmail(clientDto.getEmail());
-            if (clientWithEmail.isPresent() && !clientWithEmail.get().getId().equals(id)) {
-                throw new RuntimeException("Email already exists: " + clientDto.getEmail());
-            }
+            clientRepository.findByEmail(clientDto.getEmail())
+                    .ifPresent(client -> {
+                        if (!client.getId().equals(id)) {
+                            throw new RuntimeException("Email already exists: " + clientDto.getEmail());
+                        }
+                    });
         }
         
-        clientMapper.updateEntityFromDto(clientDto, existingClient);
-        Client updatedClient = clientRepository.save(existingClient);
+        // Update only the fields that should be updated
+        if (clientDto.getName() != null) {
+            existingClient.setName(clientDto.getName());
+        }
+        if (clientDto.getEmail() != null) {
+            existingClient.setEmail(clientDto.getEmail());
+        }
+        if (clientDto.getContactPhone() != null) {
+            existingClient.setContactPhone(clientDto.getContactPhone());
+        }
+        if (clientDto.getAddress() != null) {
+            existingClient.setAddress(clientDto.getAddress());
+        }
+        if (clientDto.getNotes() != null) {
+            existingClient.setNotes(clientDto.getNotes());
+        }
+        if (clientDto.getIsActive() != null) {
+            existingClient.setIsActive(clientDto.getIsActive());
+        }
         
+        // Explicitly set the ID to ensure it's not lost
+        existingClient.setId(id);
+        
+        // Save the updated client
+        Client updatedClient = clientRepository.save(existingClient);
         log.info("Client updated successfully with ID: {}", updatedClient.getId());
+        
         return clientMapper.toDto(updatedClient);
     }
 
